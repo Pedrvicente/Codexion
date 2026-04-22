@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/20 16:52:24 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/22 19:16:20 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,20 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <sys/time.h>
 
 typedef struct s_sim
 {
-	int		number_of_coders;
-	int		time_to_burnout;
-	int		time_to_compile;
-	int		time_to_debug;
-	int		time_to_refactor;
-	int		number_of_compiles_required;
-	int		dongle_cooldown;
-	char	*scheduler;
+	int				number_of_coders;
+	int				time_to_burnout;
+	int				time_to_compile;
+	int				time_to_debug;
+	int				time_to_refactor;
+	int				number_of_compiles_required;
+	int				dongle_cooldown;
+	long			start_time;
+	char			*scheduler;
+	pthread_mutex_t	mutex_log;
 }	t_sim;
 
 typedef struct s_dongle
@@ -56,6 +59,12 @@ int			ft_is_int(char *c);
 t_dongle	*init_dongles(int n);
 t_coder		*init_coders(int n, t_dongle *dongles, t_sim *sim);
 int 		error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders);
+void		take_left_first(t_coder *coder);
+void		take_right_first(t_coder *coder);
+void		release_dongle(t_dongle *dongle);
+void		compile(t_coder *coder, t_dongle *left, t_dongle *right);
+void		*coder_routine(void *arg);
+long		get_time(void);
 
 
 #endif
