@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:17:22 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/22 19:25:51 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/23 09:58:58 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	validate_args(int argc, char **argv)
 		}
 		i++;
 	}
-	if (strcmp(argv[8], "fifo") != 0  && strcmp(argv[8], "edf") != 0)
+	if (strcmp(argv[8], "fifo") != 0 && strcmp(argv[8], "edf") != 0)
 	{
 		printf("Error: Value must be fifo or edf\n");
 		return (1);
@@ -61,7 +61,7 @@ int	parse_args(char **argv, t_sim *sim)
 	sim->time_to_debug = atoi(argv[4]);
 	sim->time_to_refactor = atoi(argv[5]);
 	sim->number_of_compiles_required = atoi(argv[6]);
-	sim->dongle_cooldown= atoi(argv[7]);
+	sim->dongle_cooldown = atoi(argv[7]);
 	sim->scheduler = argv[8];
 	return (1);
 }

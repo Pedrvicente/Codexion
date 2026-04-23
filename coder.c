@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:09:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/23 09:02:08 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/23 10:35:56 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ void	take_right_first(t_coder *coder)
 {
 	t_dongle	*left;
 	t_dongle	*right;
-	
+
 	left = coder->left_dongle;
 	right = coder->right_dongle;
 	pthread_mutex_lock(&right->mutex_dongle);
 	while (!right->available)
-	pthread_cond_wait(&right->cond_dongle, &right->mutex_dongle);
+		pthread_cond_wait(&right->cond_dongle, &right->mutex_dongle);
 	right->available = 0;
 	log_state(coder, "has taken a dongle");
 	pthread_mutex_unlock(&right->mutex_dongle);
 	pthread_mutex_lock(&left->mutex_dongle);
 	while (!left->available)
-	pthread_cond_wait(&left->cond_dongle, &left->mutex_dongle);
+		pthread_cond_wait(&left->cond_dongle, &left->mutex_dongle);
 	left->available = 0;
 	log_state(coder, "has taken a dongle");
 	pthread_mutex_unlock(&left->mutex_dongle);
@@ -67,6 +67,8 @@ void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 	if (coder->id % 2 == 0)
 	{
 		take_left_first(coder);
+		coder->compile_times += 1;
+		coder->last_compile = get_time();
 		log_state(coder, "is compiling");
 		usleep(coder->sim->time_to_compile * 1000);
 		release_dongle(left);
@@ -75,6 +77,8 @@ void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 	else
 	{
 		take_right_first(coder);
+		coder->compile_times += 1;
+		coder->last_compile = get_time();
 		log_state(coder, "is compiling");
 		usleep(coder->sim->time_to_compile * 1000);
 		release_dongle(right);
@@ -89,7 +93,7 @@ void	*coder_routine(void *arg)
 	t_dongle	*right;
 
 	coder = (t_coder *)arg;
-	while (coder->alive)
+	while (coder->alive && coder->sim->simulation_running)
 	{
 		left = coder->left_dongle;
 		right = coder->right_dongle;
