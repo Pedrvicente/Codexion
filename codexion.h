@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/22 19:16:20 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/22 19:48:17 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,14 @@ int			ft_is_int(char *c);
 t_dongle	*init_dongles(int n);
 t_coder		*init_coders(int n, t_dongle *dongles, t_sim *sim);
 int 		error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders);
+void		free_exit(t_sim *sim, t_dongle *dongles, t_coder *coders);
 void		take_left_first(t_coder *coder);
 void		take_right_first(t_coder *coder);
 void		release_dongle(t_dongle *dongle);
 void		compile(t_coder *coder, t_dongle *left, t_dongle *right);
 void		*coder_routine(void *arg);
 long		get_time(void);
+void		log_state(t_coder *coder, char *message);
 
 
 #endif

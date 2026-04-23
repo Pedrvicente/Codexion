@@ -6,22 +6,11 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:17:22 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/20 16:52:01 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/22 19:25:51 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-int error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders)
-{
-	if (sim)
-		free(sim);
-	if (coders)
-		free(coders);
-	if (dongles)
-		free(dongles);
-	return (1);
-}
 
 int	ft_is_int(char *c)
 {
