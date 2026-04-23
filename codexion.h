@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/23 10:33:45 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/23 12:51:26 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void		*coder_routine(void *arg);
 long		get_time(void);
 void		log_state(t_coder *coder, char *message);
 void		*monitor_routine(void *arg);
-
+int			thread_loop(t_sim *sim);
+int			start_simulation(t_sim *sim);
 #endif
