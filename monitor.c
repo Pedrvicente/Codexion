@@ -6,13 +6,13 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:32:40 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/23 12:23:21 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/27 11:04:55 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	*check_burnout(t_sim *sim)
+void	check_burnout(t_sim *sim)
 {
 	int	i;
 	int	j;
@@ -30,14 +30,14 @@ void	*check_burnout(t_sim *sim)
 				j++;
 			}
 			sim->simulation_running = 0;
-			return (NULL);
+			return ;
 		}
 		i++;
 	}
-	return (NULL);
+	return ;
 }
 
-void	*check_compile_times(t_sim *sim)
+void	check_compile_times(t_sim *sim)
 {
 	int	i;
 	int	j;
@@ -58,11 +58,11 @@ void	*check_compile_times(t_sim *sim)
 				j++;
 			}
 			sim->simulation_running = 0;
-			return (NULL);
+			return ;
 		}
 		i++;
 	}
-	return (NULL);
+	return ;
 }
 
 void	*monitor_routine(void *arg)

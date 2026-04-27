@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:09:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/23 10:35:56 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/27 11:03:11 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,11 @@ void	take_right_first(t_coder *coder)
 	pthread_mutex_unlock(&left->mutex_dongle);
 }
 
-void	release_dongle(t_dongle *dongle)
+void	release_dongle(t_dongle *dongle, int dongle_cooldown)
 {
+	dongle->timestamp = get_time();
+	while (get_time() - dongle->timestamp < dongle_cooldown)
+		usleep(100);
 	pthread_mutex_lock(&dongle->mutex_dongle);
 	dongle->available = 1;
 	pthread_cond_broadcast(&dongle->cond_dongle);
@@ -70,9 +73,9 @@ void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 		coder->compile_times += 1;
 		coder->last_compile = get_time();
 		log_state(coder, "is compiling");
-		usleep(coder->sim->time_to_compile * 1000);
-		release_dongle(left);
-		release_dongle(right);
+		precise_sleep(coder->sim, coder->sim->time_to_compile);
+		release_dongle(left, coder->sim->dongle_cooldown);
+		release_dongle(right, coder->sim->dongle_cooldown);
 	}
 	else
 	{
@@ -80,9 +83,9 @@ void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 		coder->compile_times += 1;
 		coder->last_compile = get_time();
 		log_state(coder, "is compiling");
-		usleep(coder->sim->time_to_compile * 1000);
-		release_dongle(right);
-		release_dongle(left);
+		precise_sleep(coder->sim, coder->sim->time_to_compile);
+		release_dongle(right, coder->sim->dongle_cooldown);
+		release_dongle(left, coder->sim->dongle_cooldown);
 	}
 }
 
@@ -99,9 +102,9 @@ void	*coder_routine(void *arg)
 		right = coder->right_dongle;
 		compile(coder, left, right);
 		log_state(coder, "is debugging");
-		usleep(coder->sim->time_to_debug * 1000);
+		precise_sleep(coder->sim, coder->sim->time_to_compile);
 		log_state(coder, "is refactoring");
-		usleep(coder->sim->time_to_refactor * 1000);
+		precise_sleep(coder->sim, coder->sim->time_to_compile);
 	}
 	return (NULL);
 }

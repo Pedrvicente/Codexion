@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/23 12:51:26 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/27 11:01:24 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ int			error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders);
 void		free_exit(t_sim *sim, t_dongle *dongles, t_coder *coders);
 void		take_left_first(t_coder *coder);
 void		take_right_first(t_coder *coder);
-void		release_dongle(t_dongle *dongle);
+void		release_dongle(t_dongle *dongle, int dongle_cooldown);
 void		compile(t_coder *coder, t_dongle *left, t_dongle *right);
 void		*coder_routine(void *arg);
 long		get_time(void);
+void		precise_sleep(t_sim *sim, long duration);
 void		log_state(t_coder *coder, char *message);
 void		*monitor_routine(void *arg);
 int			thread_loop(t_sim *sim);
