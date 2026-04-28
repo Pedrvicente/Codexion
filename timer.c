@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 18:55:28 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 16:42:20 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 18:08:22 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ void	precise_sleep(t_sim *sim, long duration)
 
 void	log_state(t_coder *coder, char *message)
 {
-	long			time;
-
 	pthread_mutex_lock(&coder->sim->mutex_log);
-	time = get_time() - coder->sim->start_time;
-	printf("%ld %d %s\n", time, coder->id, message);
+	if (coder->sim->simulation_running || strcmp(message, "burned out") == 0)
+        printf("%ld %d %s\n", get_time() - coder->sim->start_time, coder->id, message);
 	pthread_mutex_unlock(&coder->sim->mutex_log);
 }

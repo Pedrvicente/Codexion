@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:25:35 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 17:47:05 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 18:05:04 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders)
 		while (i < sim->number_of_coders)
 		{
 			pthread_mutex_destroy(&dongles[i].mutex_dongle);
-			pthread_mutex_destroy(&dongles[i].cond_dongle);
+			pthread_cond_destroy(&dongles[i].cond_dongle);
 			i++;
 		}
 	}
