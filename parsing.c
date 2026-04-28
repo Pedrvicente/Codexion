@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:17:22 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/23 09:58:58 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:17:26 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	validate_args(int argc, char **argv)
 	i = 1;
 	if (argc != 9)
 	{
-		printf("Error: not enough arguments\n");
+		printf("Error: wrong number of arguments\n");
 		return (0);
 	}
 	while (i < 8)
 	{
 		if (!ft_is_int(argv[i]))
 		{
-			printf("Error %s: Argument must be and integer\n", argv[i]);
+			printf("Error %s: Argument must be an integer\n", argv[i]);
 			return (0);
 		}
 		i++;

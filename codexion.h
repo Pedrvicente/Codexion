@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/27 11:01:24 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:12:26 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_coder
 	int				compile_times;
 	int				alive;
 	long			last_compile;
+	long			arrival_time;
 	struct s_dongle	*left_dongle;
 	struct s_dongle	*right_dongle;
 	t_sim			*sim;
@@ -49,12 +50,21 @@ typedef struct s_sim
 	t_coder			*coders;
 }	t_sim;
 
+typedef struct s_request
+{
+	int		coder_id;
+	long	arrival_time;
+	long	deadline;
+}	t_request;
+
 typedef struct s_dongle
 {
 	pthread_mutex_t		mutex_dongle;
 	pthread_cond_t		cond_dongle;
 	int					available;
 	long				timestamp;
+	t_request			queue[2];
+	int					queue_size;
 }	t_dongle;
 
 int			validate_args(int argc, char **argv);
@@ -75,4 +85,10 @@ void		log_state(t_coder *coder, char *message);
 void		*monitor_routine(void *arg);
 int			thread_loop(t_sim *sim);
 int			start_simulation(t_sim *sim);
+void		enqueue_fifo(t_dongle *dongle, t_coder *coder);
+void		enqueue_edf(t_dongle *dongle, t_coder *coder);
+void		enqueue(t_dongle *dongle, t_coder *coder);
+void		dequeue(t_dongle *dongle);
+void		wait_for_dongle(t_dongle *dongle, t_coder *coder);
+
 #endif

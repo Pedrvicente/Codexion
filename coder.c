@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:09:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/27 11:03:11 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/27 13:03:50 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,11 @@ void	take_left_first(t_coder *coder)
 
 	left = coder->left_dongle;
 	right = coder->right_dongle;
-	pthread_mutex_lock(&left->mutex_dongle);
-	while (!left->available)
-		pthread_cond_wait(&left->cond_dongle, &left->mutex_dongle);
-	left->available = 0;
+	coder->arrival_time = get_time();
+	wait_for_dongle(left, coder);
 	log_state(coder, "has taken a dongle");
-	pthread_mutex_unlock(&left->mutex_dongle);
-	pthread_mutex_lock(&right->mutex_dongle);
-	while (!right->available)
-		pthread_cond_wait(&right->cond_dongle, &right->mutex_dongle);
-	right->available = 0;
+	wait_for_dongle(right, coder);
 	log_state(coder, "has taken a dongle");
-	pthread_mutex_unlock(&right->mutex_dongle);
 }
 
 void	take_right_first(t_coder *coder)
@@ -40,18 +33,11 @@ void	take_right_first(t_coder *coder)
 
 	left = coder->left_dongle;
 	right = coder->right_dongle;
-	pthread_mutex_lock(&right->mutex_dongle);
-	while (!right->available)
-		pthread_cond_wait(&right->cond_dongle, &right->mutex_dongle);
-	right->available = 0;
+	coder->arrival_time = get_time();
+	wait_for_dongle(right, coder);
 	log_state(coder, "has taken a dongle");
-	pthread_mutex_unlock(&right->mutex_dongle);
-	pthread_mutex_lock(&left->mutex_dongle);
-	while (!left->available)
-		pthread_cond_wait(&left->cond_dongle, &left->mutex_dongle);
-	left->available = 0;
+	wait_for_dongle(left, coder);
 	log_state(coder, "has taken a dongle");
-	pthread_mutex_unlock(&left->mutex_dongle);
 }
 
 void	release_dongle(t_dongle *dongle, int dongle_cooldown)
