@@ -23,7 +23,8 @@ int	thread_loop(t_sim *sim)
 	i = 0;
 	while (i < sim->number_of_coders)
 	{
-		pthread_create(&coders_threads[i], NULL, coder_routine, &sim->coders[i]);
+		pthread_create(&coders_threads[i], NULL, coder_routine,
+			&sim->coders[i]);
 		i++;
 	}
 	i = 0;

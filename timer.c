@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 18:55:28 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/27 11:00:35 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 16:42:20 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long	get_time(void)
 void	precise_sleep(t_sim *sim, long duration)
 {
 	long	start;
-	long remaining;
+	long	remaining;
 
 	start = get_time();
 	while (get_time() - start < duration)

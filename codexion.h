@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 10:37:31 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 16:45:34 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_dongle
 	t_request			queue[2];
 	int					queue_size;
 }	t_dongle;
-
 
 typedef struct s_sim
 {
