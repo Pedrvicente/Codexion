@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 12:28:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 10:53:04 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:29:36 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ int	thread_loop(t_sim *sim)
 	return (0);
 }
 
+int	run_solo(t_sim *sim, t_dongle *dongles, t_coder *coders)
+{
+	log_state(sim->coders, "has taken a dongle");
+	while (get_time() - sim->start_time < sim->time_to_burnout)
+		usleep(500);
+	log_state(sim->coders, "burned out");
+	return (error_exit(sim, dongles, coders));
+}
+
 int	start_simulation(t_sim *sim)
 {
 	t_coder		*coders;
@@ -55,10 +64,7 @@ int	start_simulation(t_sim *sim)
 	sim->coders = coders;
 	sim->dongles = dongles;
 	if (sim->number_of_coders == 1)
-	{
-		log_state(sim->coders, "burned out");
-		return (error_exit(sim, NULL, NULL));
-	}
+		return (run_solo(sim, dongles, coders));
 	pthread_create(&monitor_thread, NULL, monitor_routine, sim);
 	thread_loop(sim);
 	pthread_join(monitor_thread, NULL);

@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 16:45:34 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:27:25 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ void		enqueue_edf(t_dongle *dongle, t_coder *coder);
 void		enqueue(t_dongle *dongle, t_coder *coder);
 void		dequeue(t_dongle *dongle);
 void		wait_for_dongle(t_dongle *dongle, t_coder *coder);
+int			run_solo(t_sim *sim, t_dongle *dongles, t_coder *coders);
 
 #endif
