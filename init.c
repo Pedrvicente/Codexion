@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:19:22 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 10:53:30 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:05:31 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_dongle	*init_dongles(int n)
 		pthread_cond_init(&dongles[i].cond_dongle, NULL);
 		dongles[i].available = 1;
 		dongles[i].timestamp = 0;
+		dongles->queue_size = 0;
 		i++;
 	}
 	return (dongles);
