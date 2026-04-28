@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:17:22 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 17:06:19 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:18:16 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,16 @@ int	parse_args(char **argv, t_sim *sim)
 	sim->number_of_compiles_required = atoi(argv[6]);
 	sim->dongle_cooldown = atoi(argv[7]);
 	sim->scheduler = argv[8];
+	if (sim->number_of_coders <= 0
+    || sim->time_to_burnout <= 0
+    || sim->time_to_compile <= 0
+    || sim->time_to_debug < 0
+    || sim->time_to_refactor < 0
+    || sim->number_of_compiles_required <= 0
+    || sim->dongle_cooldown < 0)
+	{
+		printf("Error: arguments out of valid range\n");
+		return (0);
+	}
 	return (1);
 }
