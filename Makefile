@@ -1,6 +1,6 @@
 NAME = codexion
 CC = cc
-FLAGS = -Wall -Wextra -Werror -pthread
+FLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address
 
 SRCS = main.c parsing.c monitor.c queue.c coder.c dongle.c \
        errors.c init.c simulation.c timer.c
