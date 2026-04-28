@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 12:28:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/23 12:50:44 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:53:04 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,17 @@ int	start_simulation(t_sim *sim)
 	t_dongle	*dongles;
 	pthread_t	monitor_thread;
 
+	sim->start_time = get_time();
+	sim->simulation_running = 1;
+	pthread_mutex_init(&sim->mutex_log, NULL);
 	dongles = init_dongles(sim->number_of_coders);
 	if (!dongles)
 		return (error_exit(sim, NULL, NULL));
 	coders = init_coders(sim->number_of_coders, dongles, sim);
 	if (!coders)
 		return (error_exit(sim, dongles, NULL));
-	pthread_mutex_init(&sim->mutex_log, NULL);
 	sim->coders = coders;
-	sim->start_time = get_time();
-	sim->simulation_running = 1;
+	sim->dongles = dongles;
 	if (sim->number_of_coders == 1)
 	{
 		log_state(sim->coders, "burned out");

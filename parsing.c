@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 12:17:22 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 10:17:26 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:19:43 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	validate_args(int argc, char **argv)
 	i = 1;
 	if (argc != 9)
 	{
-		printf("Error: wrong number of arguments\n");
+		printf("Error: Wrong number of arguments\n");
 		return (0);
 	}
 	while (i < 8)
@@ -48,7 +48,7 @@ int	validate_args(int argc, char **argv)
 	if (strcmp(argv[8], "fifo") != 0 && strcmp(argv[8], "edf") != 0)
 	{
 		printf("Error: Value must be fifo or edf\n");
-		return (1);
+		return (0);
 	}
 	return (1);
 }

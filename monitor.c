@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:32:40 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/27 11:04:55 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:41:10 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ void	check_burnout(t_sim *sim)
 	i = 0;
 	while (i < sim->number_of_coders)
 	{
-		if (get_time() - sim->coders[i].last_compile > sim ->time_to_burnout)
+		if (get_time() - sim->coders[i].last_compile > sim->time_to_burnout)
 		{
 			log_state(&sim->coders[i], "burned out");
+			sim->simulation_running = 0;
 			j = 0;
 			while (j < sim->number_of_coders)
 			{
+				pthread_mutex_lock(&sim->dongles[j].mutex_dongle);
+				pthread_cond_broadcast(&sim->dongles[j].cond_dongle);
+				pthread_mutex_unlock(&sim->dongles[j].mutex_dongle);
 				sim->coders[j].alive = 0;
 				j++;
 			}

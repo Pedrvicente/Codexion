@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:19:22 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/23 10:13:38 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:53:30 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_coder	*init_coders(int n, t_dongle *dongles, t_sim *sim)
 		coders[i].id = i + 1;
 		coders[i].compile_times = 0;
 		coders[i].alive = 1;
-		coders[i].last_compile = get_time();
+		coders[i].last_compile = sim->start_time;
 		coders[i].left_dongle = &dongles[i];
 		coders[i].right_dongle = &dongles[(i + 1) % n];
 		coders[i].sim = sim;

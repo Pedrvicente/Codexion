@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:09:57 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 10:09:05 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:42:51 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	enqueue(t_dongle *dongle, t_coder *coder)
 
 void	dequeue(t_dongle *dongle)
 {
+	if (dongle->queue_size <= 0)
+		return ;
 	dongle->queue[0] = dongle->queue[1];
 	dongle->queue_size -= 1;
 }
@@ -65,8 +67,14 @@ void	wait_for_dongle(t_dongle *dongle, t_coder *coder)
 {
 	pthread_mutex_lock(&dongle->mutex_dongle);
 	enqueue(dongle, coder);
-	while (!dongle->available || dongle->queue[0].coder_id != coder->id)
+	while ((!dongle->available || dongle->queue[0].coder_id != coder->id) && coder->sim->simulation_running)
 		pthread_cond_wait(&dongle->cond_dongle, &dongle->mutex_dongle);
+	if (!coder->sim->simulation_running)
+	{
+		dequeue(dongle);
+		pthread_mutex_unlock(&dongle->mutex_dongle);
+		return ;
+	}
 	dongle->available = 0;
 	dequeue(dongle);
 	pthread_mutex_unlock(&dongle->mutex_dongle);

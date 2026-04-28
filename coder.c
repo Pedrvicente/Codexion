@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:09:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/27 13:03:50 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:59:25 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ void	take_left_first(t_coder *coder)
 	right = coder->right_dongle;
 	coder->arrival_time = get_time();
 	wait_for_dongle(left, coder);
+	if (!coder->sim->simulation_running)
+		return ;
 	log_state(coder, "has taken a dongle");
 	wait_for_dongle(right, coder);
+	if (!coder->sim->simulation_running)
+		return ;
 	log_state(coder, "has taken a dongle");
 }
 
@@ -35,8 +39,12 @@ void	take_right_first(t_coder *coder)
 	right = coder->right_dongle;
 	coder->arrival_time = get_time();
 	wait_for_dongle(right, coder);
+	if (!coder->sim->simulation_running)
+		return ;
 	log_state(coder, "has taken a dongle");
 	wait_for_dongle(left, coder);
+	if (!coder->sim->simulation_running)
+		return ;
 	log_state(coder, "has taken a dongle");
 }
 
@@ -56,6 +64,8 @@ void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 	if (coder->id % 2 == 0)
 	{
 		take_left_first(coder);
+		if (!coder->sim->simulation_running)
+			return ;
 		coder->compile_times += 1;
 		coder->last_compile = get_time();
 		log_state(coder, "is compiling");
@@ -66,6 +76,8 @@ void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 	else
 	{
 		take_right_first(coder);
+		if (!coder->sim->simulation_running)
+			return ;
 		coder->compile_times += 1;
 		coder->last_compile = get_time();
 		log_state(coder, "is compiling");
@@ -87,10 +99,12 @@ void	*coder_routine(void *arg)
 		left = coder->left_dongle;
 		right = coder->right_dongle;
 		compile(coder, left, right);
+		if (!coder->sim->simulation_running)
+			return (NULL);
 		log_state(coder, "is debugging");
-		precise_sleep(coder->sim, coder->sim->time_to_compile);
+		precise_sleep(coder->sim, coder->sim->time_to_debug);
 		log_state(coder, "is refactoring");
-		precise_sleep(coder->sim, coder->sim->time_to_compile);
+		precise_sleep(coder->sim, coder->sim->time_to_refactor);
 	}
 	return (NULL);
 }

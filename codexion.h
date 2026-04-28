@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 10:12:26 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:37:31 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,6 @@ typedef struct s_coder
 	t_sim			*sim;
 }	t_coder;
 
-typedef struct s_sim
-{
-	int				number_of_coders;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_debug;
-	int				time_to_refactor;
-	int				number_of_compiles_required;
-	int				dongle_cooldown;
-	long			start_time;
-	char			*scheduler;
-	int				simulation_running;
-	pthread_mutex_t	mutex_log;
-	t_coder			*coders;
-}	t_sim;
-
 typedef struct s_request
 {
 	int		coder_id;
@@ -66,6 +50,24 @@ typedef struct s_dongle
 	t_request			queue[2];
 	int					queue_size;
 }	t_dongle;
+
+
+typedef struct s_sim
+{
+	int				number_of_coders;
+	int				time_to_burnout;
+	int				time_to_compile;
+	int				time_to_debug;
+	int				time_to_refactor;
+	int				number_of_compiles_required;
+	int				dongle_cooldown;
+	long			start_time;
+	char			*scheduler;
+	int				simulation_running;
+	pthread_mutex_t	mutex_log;
+	t_coder			*coders;
+	t_dongle		*dongles;
+}	t_sim;
 
 int			validate_args(int argc, char **argv);
 int			parse_args(char **argv, t_sim *sim);
