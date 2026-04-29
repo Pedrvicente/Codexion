@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:32:40 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/29 09:54:02 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/29 10:01:41 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	check_burnout(t_sim *sim)
 	{
 		if (get_time() - sim->coders[i].last_compile > sim->time_to_burnout)
 		{
-			log_state(&sim->coders[i], "burned out");
 			sim->simulation_running = 0;
+			log_state(&sim->coders[i], "burned out");
 			j = 0;
 			while (j < sim->number_of_coders)
 			{
