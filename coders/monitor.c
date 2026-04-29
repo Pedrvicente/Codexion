@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:32:40 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/29 10:01:41 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/29 10:09:01 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	*monitor_routine(void *arg)
 	{
 		check_burnout(sim);
 		check_compile_times(sim);
+		usleep(500);
 	}
 	return (NULL);
 }
