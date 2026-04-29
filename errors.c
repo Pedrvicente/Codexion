@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:25:35 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 18:05:04 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/29 09:58:32 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders)
 {
 	int	i;
 
-	if (dongles && coders)
+	if (dongles)
 	{
 		i = 0;
 		while (i < sim->number_of_coders)
@@ -25,6 +25,7 @@ int	error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders)
 			pthread_cond_destroy(&dongles[i].cond_dongle);
 			i++;
 		}
+		free(dongles);
 	}
 	if (sim)
 	{
@@ -33,8 +34,6 @@ int	error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders)
 	}
 	if (coders)
 		free(coders);
-	if (dongles)
-		free(dongles);
 	return (1);
 }
 
