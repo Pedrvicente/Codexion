@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:09:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 10:59:25 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/29 14:55:29 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ void	take_right_first(t_coder *coder)
 
 void	release_dongle(t_dongle *dongle, int dongle_cooldown)
 {
-	dongle->timestamp = get_time();
-	while (get_time() - dongle->timestamp < dongle_cooldown)
-		usleep(100);
+	(void)dongle_cooldown;
 	pthread_mutex_lock(&dongle->mutex_dongle);
+	dongle->timestamp = get_time();
 	dongle->available = 1;
 	pthread_cond_broadcast(&dongle->cond_dongle);
 	pthread_mutex_unlock(&dongle->mutex_dongle);

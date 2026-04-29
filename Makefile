@@ -1,9 +1,11 @@
 NAME = codexion
 CC = cc
 FLAGS = -Wall -Wextra -Werror -pthread
+SRCDIR = coders
 
-SRCS = main.c parsing.c monitor.c queue.c coder.c \
-       errors.c init.c simulation.c timer.c
+SRCS = $(SRCDIR)/main.c $(SRCDIR)/parsing.c $(SRCDIR)/monitor.c \
+       $(SRCDIR)/queue.c $(SRCDIR)/coder.c $(SRCDIR)/errors.c \
+       $(SRCDIR)/init.c $(SRCDIR)/simulation.c $(SRCDIR)/timer.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:09:57 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 16:43:37 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/29 14:56:16 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,13 @@ void	wait_for_dongle(t_dongle *dongle, t_coder *coder)
 		dequeue(dongle);
 		pthread_mutex_unlock(&dongle->mutex_dongle);
 		return ;
+	}
+	while (get_time() - dongle->timestamp < coder->sim->dongle_cooldown
+		&& coder->sim->simulation_running)
+	{
+		pthread_mutex_unlock(&dongle->mutex_dongle);
+		usleep(100);
+		pthread_mutex_lock(&dongle->mutex_dongle);
 	}
 	dongle->available = 0;
 	dequeue(dongle);
