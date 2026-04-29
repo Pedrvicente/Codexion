@@ -2,7 +2,7 @@ NAME = codexion
 CC = cc
 FLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address
 
-SRCS = main.c parsing.c monitor.c queue.c coder.c dongle.c \
+SRCS = main.c parsing.c monitor.c queue.c coder.c \
        errors.c init.c simulation.c timer.c
 
 OBJS = $(SRCS:.c=.o)
