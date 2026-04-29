@@ -127,10 +127,10 @@ This global ordering ensures no circular wait can form across the ring of coders
 
 ### AI usage
 
-Claude (claude.ai / Claude Code) was used during this project for the following tasks:
+AI was used during this project for the following tasks:
 
+- Understanding concepts and helping create the structure of the project
 - Completing and correcting the `Makefile` (adding missing source files, object file rules, and `clean`/`fclean` targets).
-- Fixing norm errors (LINE_TOO_LONG) in `queue.c` and `simulation.c` by splitting long lines.
-- Drafting this README according to the subject requirements.
+- Fixing norm errors.
 
 All generated content was reviewed, understood, and validated before being integrated into the project.
