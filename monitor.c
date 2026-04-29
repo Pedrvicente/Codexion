@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 09:32:40 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 18:08:49 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/29 09:54:02 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	check_burnout(t_sim *sim)
 				sim->coders[j].alive = 0;
 				j++;
 			}
-			sim->simulation_running = 0;
 			return ;
 		}
 		i++;
