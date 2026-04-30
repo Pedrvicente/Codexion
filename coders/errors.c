@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:25:35 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/29 09:58:32 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/30 11:34:58 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	error_exit(t_sim *sim, t_dongle *dongles, t_coder *coders)
 	if (sim)
 	{
 		pthread_mutex_destroy(&sim->mutex_log);
+		pthread_mutex_destroy(&sim->mutex_state);
 		free(sim);
 	}
 	if (coders)

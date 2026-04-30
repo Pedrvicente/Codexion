@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:09:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/29 14:55:29 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/30 14:21:18 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	take_left_first(t_coder *coder)
 	right = coder->right_dongle;
 	coder->arrival_time = get_time();
 	wait_for_dongle(left, coder);
-	if (!coder->sim->simulation_running)
+	if (!is_running(coder->sim))
 		return ;
 	log_state(coder, "has taken a dongle");
 	wait_for_dongle(right, coder);
-	if (!coder->sim->simulation_running)
+	if (!is_running(coder->sim))
 		return ;
 	log_state(coder, "has taken a dongle");
 }
@@ -39,11 +39,11 @@ void	take_right_first(t_coder *coder)
 	right = coder->right_dongle;
 	coder->arrival_time = get_time();
 	wait_for_dongle(right, coder);
-	if (!coder->sim->simulation_running)
+	if (!is_alive(coder))
 		return ;
 	log_state(coder, "has taken a dongle");
 	wait_for_dongle(left, coder);
-	if (!coder->sim->simulation_running)
+	if (!is_running(coder->sim))
 		return ;
 	log_state(coder, "has taken a dongle");
 }
@@ -61,26 +61,25 @@ void	release_dongle(t_dongle *dongle, int dongle_cooldown)
 void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 {
 	if (coder->id % 2 == 0)
-	{
 		take_left_first(coder);
-		if (!coder->sim->simulation_running)
-			return ;
-		coder->compile_times += 1;
-		coder->last_compile = get_time();
-		log_state(coder, "is compiling");
-		precise_sleep(coder->sim, coder->sim->time_to_compile);
+	else
+		take_right_first(coder);
+	if (!is_running(coder->sim))
+		return ;
+	// avoid data races, only one thread is looking at this and editing
+	pthread_mutex_lock(&coder->sim->mutex_state);
+	coder->compile_times += 1;
+	coder->last_compile = get_time();
+	pthread_mutex_unlock(&coder->sim->mutex_state);
+	log_state(coder, "is compiling");
+	precise_sleep(coder->sim, coder->sim->time_to_compile);
+	if (coder->id % 2 == 0)
+	{
 		release_dongle(left, coder->sim->dongle_cooldown);
 		release_dongle(right, coder->sim->dongle_cooldown);
-	}
+	}	
 	else
 	{
-		take_right_first(coder);
-		if (!coder->sim->simulation_running)
-			return ;
-		coder->compile_times += 1;
-		coder->last_compile = get_time();
-		log_state(coder, "is compiling");
-		precise_sleep(coder->sim, coder->sim->time_to_compile);
 		release_dongle(right, coder->sim->dongle_cooldown);
 		release_dongle(left, coder->sim->dongle_cooldown);
 	}
@@ -93,12 +92,12 @@ void	*coder_routine(void *arg)
 	t_dongle	*right;
 
 	coder = (t_coder *)arg;
-	while (coder->alive && coder->sim->simulation_running)
+	while (is_alive(coder) && is_running(coder->sim))
 	{
 		left = coder->left_dongle;
 		right = coder->right_dongle;
 		compile(coder, left, right);
-		if (!coder->sim->simulation_running)
+		if (!is_running(coder->sim))
 			return (NULL);
 		log_state(coder, "is debugging");
 		precise_sleep(coder->sim, coder->sim->time_to_debug);

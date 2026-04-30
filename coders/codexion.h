@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 15:13:45 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 17:27:25 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/30 12:20:54 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_sim
 	char			*scheduler;
 	int				simulation_running;
 	pthread_mutex_t	mutex_log;
+	pthread_mutex_t	mutex_state;
 	t_coder			*coders;
 	t_dongle		*dongles;
 }	t_sim;
@@ -81,6 +82,8 @@ void		release_dongle(t_dongle *dongle, int dongle_cooldown);
 void		compile(t_coder *coder, t_dongle *left, t_dongle *right);
 void		*coder_routine(void *arg);
 long		get_time(void);
+int			is_running(t_sim *sim);
+int			is_alive(t_coder *coder);
 void		precise_sleep(t_sim *sim, long duration);
 void		log_state(t_coder *coder, char *message);
 void		*monitor_routine(void *arg);

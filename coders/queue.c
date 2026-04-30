@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:09:57 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/29 14:56:16 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/04/30 14:18:37 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,13 @@ void	enqueue_fifo(t_dongle *dongle, t_coder *coder)
 void	enqueue_edf(t_dongle *dongle, t_coder *coder)
 {
 	t_request	tmp;
+	long		last;
 
+	pthread_mutex_lock(&coder->sim->mutex_state);
+	last = coder->last_compile;
+	pthread_mutex_unlock(&coder->sim->mutex_state);
 	dongle->queue[dongle->queue_size].coder_id = coder->id;
-	dongle->queue[dongle->queue_size].deadline = coder->last_compile
+	dongle->queue[dongle->queue_size].deadline = last
 		+ coder->sim->time_to_burnout;
 	dongle->queue_size += 1;
 	if (dongle->queue_size > 1)
@@ -70,16 +74,16 @@ void	wait_for_dongle(t_dongle *dongle, t_coder *coder)
 	pthread_mutex_lock(&dongle->mutex_dongle);
 	enqueue(dongle, coder);
 	while ((!dongle->available || dongle->queue[0].coder_id != coder->id)
-		&& coder->sim->simulation_running)
+		&& is_running(coder->sim))
 		pthread_cond_wait(&dongle->cond_dongle, &dongle->mutex_dongle);
-	if (!coder->sim->simulation_running)
+	if (!is_running(coder->sim))
 	{
 		dequeue(dongle);
 		pthread_mutex_unlock(&dongle->mutex_dongle);
 		return ;
 	}
 	while (get_time() - dongle->timestamp < coder->sim->dongle_cooldown
-		&& coder->sim->simulation_running)
+		&& is_running(coder->sim))
 	{
 		pthread_mutex_unlock(&dongle->mutex_dongle);
 		usleep(100);
