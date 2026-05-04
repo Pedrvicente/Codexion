@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:09:57 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/30 14:18:37 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/05/04 14:01:12 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ void	enqueue_edf(t_dongle *dongle, t_coder *coder)
 	dongle->queue_size += 1;
 	if (dongle->queue_size > 1)
 	{
-		if (dongle->queue[0].deadline > dongle->queue[1].deadline)
+		if (dongle->queue[0].deadline > dongle->queue[1].deadline
+			|| (dongle->queue[0].deadline == dongle->queue[1].deadline
+				&& dongle->queue[0].coder_id > dongle->queue[1].coder_id))
 		{
 			tmp = dongle->queue[0];
 			dongle->queue[0] = dongle->queue[1];
