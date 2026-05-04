@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 18:55:28 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/30 12:19:52 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:21:16 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long	get_time(void)
 int	is_running(t_sim *sim)
 {
 	int	running;
-	
+
 	pthread_mutex_lock(&sim->mutex_state);
 	running = sim->simulation_running;
 	pthread_mutex_unlock(&sim->mutex_state);
@@ -33,7 +33,7 @@ int	is_running(t_sim *sim)
 int	is_alive(t_coder *coder)
 {
 	int	alive;
-	
+
 	pthread_mutex_lock(&coder->sim->mutex_state);
 	alive = coder->alive;
 	pthread_mutex_unlock(&coder->sim->mutex_state);

@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:09:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/30 14:21:18 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:21:50 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 		take_right_first(coder);
 	if (!is_running(coder->sim))
 		return ;
-	// avoid data races, only one thread is looking at this and editing
 	pthread_mutex_lock(&coder->sim->mutex_state);
 	coder->compile_times += 1;
 	coder->last_compile = get_time();
@@ -77,7 +76,7 @@ void	compile(t_coder *coder, t_dongle *left, t_dongle *right)
 	{
 		release_dongle(left, coder->sim->dongle_cooldown);
 		release_dongle(right, coder->sim->dongle_cooldown);
-	}	
+	}
 	else
 	{
 		release_dongle(right, coder->sim->dongle_cooldown);
