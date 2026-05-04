@@ -6,7 +6,7 @@
 /*   By: pedde-al <pedde-al@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 12:28:49 by pedde-al          #+#    #+#             */
-/*   Updated: 2026/04/28 17:47:38 by pedde-al         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:41:48 by pedde-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int	start_simulation(t_sim *sim)
 	pthread_t	monitor_thread;
 
 	sim->start_time = get_time();
+	pthread_mutex_lock(&sim->mutex_state);
 	sim->simulation_running = 1;
+	pthread_mutex_unlock(&sim->mutex_state);
 	dongles = init_dongles(sim->number_of_coders);
 	if (!dongles)
 		return (error_exit(sim, NULL, NULL));
